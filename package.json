@@ -5,9 +5,11 @@
   "main": "module/scripts/module.js",
   "type": "module",
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "zip": "node scripts/zip.js"
   },
   "devDependencies": {
+    "archiver": "^8.0.0",
     "jest": "^29.7.0"
   }
 }
