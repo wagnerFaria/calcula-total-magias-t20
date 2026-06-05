@@ -2,8 +2,12 @@ import { calculateSpellData } from '../../module/scripts/logic.js';
 
 describe('calculateSpellData', () => {
   const mockMagoActor = {
+    flags: {
+      tormenta20: {
+        mago: true
+      }
+    },
     items: [
-      { name: 'Arcanista', type: 'classe', system: { caminho: 'Mago' } },
       { name: 'Spell 1-1', type: 'magia', system: { circulo: 1, preparada: true } },
       { name: 'Spell 1-2', type: 'magia', system: { circulo: 1, preparada: false } },
       { name: 'Spell 2-1', type: 'magia', system: { circulo: 2, preparada: true } },
@@ -18,7 +22,12 @@ describe('calculateSpellData', () => {
 
   test('should return isMago: false for non-Magos', () => {
     const nonMagoActor = {
-      items: [{ name: 'Arcanista', type: 'classe', system: { caminho: 'Feiticeiro' } }]
+      flags: {
+        tormenta20: {
+          mago: false
+        }
+      },
+      items: []
     };
     const result = calculateSpellData(nonMagoActor);
     expect(result.isMago).toBe(false);
@@ -55,6 +64,11 @@ describe('calculateSpellData', () => {
     expect(result.limit).toBe(2);
 
     const actorWith5Spells = {
+      flags: {
+        tormenta20: {
+          mago: true
+        }
+      },
       items: [
         ...mockMagoActor.items,
         { name: 'Spell 3-2', type: 'magia', system: { circulo: 3, preparada: false } }
@@ -66,8 +80,12 @@ describe('calculateSpellData', () => {
 
   test('should set status as exceeded if prepared > limit', () => {
     const overLimitActor = {
+      flags: {
+        tormenta20: {
+          mago: true
+        }
+      },
       items: [
-        { name: 'Arcanista', type: 'classe', system: { caminho: 'Mago' } },
         { name: 'S1', type: 'magia', system: { circulo: 1, preparada: true } },
         { name: 'S2', type: 'magia', system: { circulo: 1, preparada: true } },
         { name: 'S3', type: 'magia', system: { circulo: 1, preparada: true } }, // 3 prepared, 3 known -> limit 1
