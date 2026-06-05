@@ -6,7 +6,6 @@ Hooks.once('init', () => {
 
 Hooks.on('renderActorSheet', async (app, html, data) => {
     const actor = app.actor;
-    console.log('T20 Wizard Spell Comptroller | renderActorSheet triggered for actor:', actor);
     const spellData = calculateSpellData(actor);
 
     // Only proceed if it's a Mago
@@ -17,12 +16,15 @@ Hooks.on('renderActorSheet', async (app, html, data) => {
     const content = await renderTemplate(templatePath, spellData);
 
     // 2. Inject into the UI
-    // In Tormenta20 system, spells are usually inside a .tab.spells container.
-    // We want to find the actual list of spells to prepend our control panel.
-    const spellTab = html.find('.tab.spells');
+    // In Tormenta20 system, the spells tab is usually [data-tab="magias"] or .tab.spells
+    let spellTab = html.find('.tab.spells');
+    if (spellTab.length === 0) spellTab = html.find('.tab[data-tab="magias"]');
     
+    // Check if already injected to prevent duplicates
+    if (html.find('.t20-wizard-spell-control').length > 0) return;
+
     if (spellTab.length > 0) {
-        // Look for the items-list within the spell tab
+        // Look for the items-list within the spell tab to prepend there
         const itemsList = spellTab.find('.items-list').first();
         if (itemsList.length > 0) {
             itemsList.before(content);
@@ -30,10 +32,10 @@ Hooks.on('renderActorSheet', async (app, html, data) => {
             spellTab.prepend(content);
         }
     } else {
-        // Fallback: search for any container that looks like a spell list
-        const fallbackContainer = html.find('.sheet-body');
-        if (fallbackContainer.length > 0) {
-            fallbackContainer.prepend(content);
+        // If we really can't find the spell tab, we look for where the spells are usually listed
+        const spellSection = html.find('.inventory-list.spells-list');
+        if (spellSection.length > 0) {
+            spellSection.before(content);
         }
     }
 });
