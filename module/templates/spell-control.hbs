@@ -1,36 +1,33 @@
-<section class="t20-wizard-spell-control">
-    <header class="table-header flexrow">
-        <h3 class="item-name">{{localize "T20WIZARD.PanelTitle"}}</h3>
-    </header>
-    <table class="t20-wizard-table">
-        <thead>
-            <tr>
-                <th>{{localize "T20WIZARD.Circle"}}</th>
-                <th>{{localize "T20WIZARD.Known"}}</th>
-                <th>{{localize "T20WIZARD.Prepared"}}</th>
-                <th>{{localize "T20WIZARD.Status"}}</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each circles}}
-            <tr>
-                <td>{{this.label}}</td>
-                <td>{{this.known}}</td>
-                <td>{{this.prepared}}</td>
-                <td>{{this.status}}</td>
-            </tr>
-            {{/each}}
-        </tbody>
-        <tfoot>
-            <tr class="total-row {{status}}">
-                <td><strong>{{localize "T20WIZARD.Total"}}</strong></td>
-                <td>{{totalKnown}}</td>
-                <td>{{totalPrepared}}</td>
-                <td>
-                    <strong>{{limit}}</strong>
-                    <span class="status-indicator">({{localize statusLabel}})</span>
-                </td>
-            </tr>
-        </tfoot>
-    </table>
-</section>
+<div class="t20-wizard-spell-control items-list">
+    <ol class="items-list">
+        <li class="items-header flexrow">
+            <h3 class="item-name flexrow">{{localize "T20WIZARD.PanelTitle"}}</h3>
+            <div class="item-detail">{{localize "T20WIZARD.Known"}}</div>
+            <div class="item-detail">{{localize "T20WIZARD.Prepared"}}</div>
+            <div class="item-detail">{{localize "T20WIZARD.Status"}}</div>
+        </li>
+        
+        {{#each circles}}
+        <li class="item flexrow">
+            <div class="item-name flexrow">
+                <h4>{{this.label}}</h4>
+            </div>
+            <div class="item-detail">{{this.known}}</div>
+            <div class="item-detail">{{this.prepared}}</div>
+            <div class="item-detail">
+                <span class="status-indicator {{this.status}}">{{localize "T20WIZARD.StatusOk"}}</span>
+            </div>
+        </li>
+        {{/each}}
+
+        <li class="items-header flexrow total-row {{status}}">
+            <h3 class="item-name flexrow"><strong>{{localize "T20WIZARD.Total"}}</strong></h3>
+            <div class="item-detail">{{totalKnown}}</div>
+            <div class="item-detail">{{totalPrepared}}</div>
+            <div class="item-detail">
+                <strong>{{limit}}</strong>
+                <span class="status-indicator">({{localize statusLabel}})</span>
+            </div>
+        </li>
+    </ol>
+</div>

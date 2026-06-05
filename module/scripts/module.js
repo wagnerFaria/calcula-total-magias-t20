@@ -17,12 +17,18 @@ Hooks.on('renderActorSheet', async (app, html, data) => {
     const content = await renderTemplate(templatePath, spellData);
 
     // 2. Inject into the UI
-    // In Tormenta20 system, the spell tab usually has a specific class or data-tab
+    // In Tormenta20 system, spells are usually inside a .tab.spells container.
+    // We want to find the actual list of spells to prepend our control panel.
     const spellTab = html.find('.tab.spells');
     
     if (spellTab.length > 0) {
-        // Prepend to the spell tab so it appears at the top
-        spellTab.prepend(content);
+        // Look for the items-list within the spell tab
+        const itemsList = spellTab.find('.items-list').first();
+        if (itemsList.length > 0) {
+            itemsList.before(content);
+        } else {
+            spellTab.prepend(content);
+        }
     } else {
         // Fallback: search for any container that looks like a spell list
         const fallbackContainer = html.find('.sheet-body');
