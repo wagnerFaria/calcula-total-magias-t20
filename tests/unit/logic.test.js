@@ -75,12 +75,9 @@ describe('calculateSpellData', () => {
 
   test('should set status as exceeded if prepared > limit', () => {
     const overLimitActor = {
-      flags: {
-        tormenta20: {
-          mago: true
-        }
-      },
       items: [
+        { name: 'Arcanista', type: 'classe' },
+        { name: 'Caminho do Arcanista: Mago', type: 'poder' },
         { name: 'S1', type: 'magia', system: { circulo: 1, preparada: true } },
         { name: 'S2', type: 'magia', system: { circulo: 1, preparada: true } },
         { name: 'S3', type: 'magia', system: { circulo: 1, preparada: true } }, // 3 prepared, 3 known -> limit 1
