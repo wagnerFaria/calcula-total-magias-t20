@@ -6,6 +6,10 @@ Hooks.once('init', () => {
 
 Hooks.on('renderActorSheet', async (app, html, data) => {
     const actor = app.actor;
+    console.log('T20 Wizard Spell Comptroller | renderActorSheet triggered');
+    console.log('T20 Wizard Spell Comptroller | Actor Data:', actor);
+    console.log('T20 Wizard Spell Comptroller | Sheet HTML Element:', html);
+    
     const spellData = calculateSpellData(actor);
 
     // Only proceed if it's a Mago
