@@ -1,0 +1,16 @@
+{
+  "T20WIZARD.PanelTitle": "Controle de Magias (Mago)",
+  "T20WIZARD.Circle": "Círculo",
+  "T20WIZARD.Known": "Conhecidas",
+  "T20WIZARD.Prepared": "Preparadas",
+  "T20WIZARD.Limit": "Limite",
+  "T20WIZARD.Status": "Status",
+  "T20WIZARD.StatusOk": "OK",
+  "T20WIZARD.StatusExceeded": "Limite Excedido",
+  "T20WIZARD.Total": "Geral / Total",
+  "T20WIZARD.Circle1": "1º Círculo",
+  "T20WIZARD.Circle2": "2º Círculo",
+  "T20WIZARD.Circle3": "3º Círculo",
+  "T20WIZARD.Circle4": "4º Círculo",
+  "T20WIZARD.Circle5": "5º Círculo"
+}

@@ -1,0 +1,15 @@
+# Node.js
+node_modules/
+dist/
+build/
+*.log
+.env*
+coverage/
+
+# Universal
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+.vscode/
+.idea/

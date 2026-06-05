@@ -18,7 +18,7 @@ Se o `Actor` possuir a classe **Arcanista** E o subtipo/caminho configurado como
 2. **Total de Magias Conhecidas Gerais:** Somatório absoluto de todas as magias na ficha.
 3. **Magias Preparadas Atual:** Contagem de quantas magias estão marcadas como "preparadas" (utilizando a propriedade nativa de preparação de itens do Foundry) agrupadas por Círculo de Magia e o Total Geral.
 4. **Limite Máximo de Magias Preparadas:** 
-   * **Regra de T20:** Um mago pode preparar um número de magias igual a **1 + seu modificador de Inteligência** (mínimo 1) por círculo disponível, ou seguindo a regra geral consolidada do personagem (1 + Int total, a depender da errata/versão aplicada). *Nota: Permitir que o valor máximo seja ajustável ou calculado dinamicamente com base no atributo Inteligência (`system.atributos.int.mod`).*
+   * **Regra de T20:** O limite de magias que um mago pode preparar não é relacionado ao círculo/nível da magia, mas sim correspondente a **metade do total de magias conhecidas (arredondado para baixo)**. *Nota: O cálculo deve ser baseado no somatório total de magias na ficha.*
 
 ---
 
@@ -51,6 +51,14 @@ Para garantir isso, o agente deve se apoiar no ciclo de renderização nativo do
 * **Criação e Deleção (Adicionar/Remover Magia):** Da mesma forma, os eventos de `createItem` e `deleteItem` alteram o array de itens do personagem, forçando uma nova renderização da ficha.
 * **Regra de Implementação:** Toda a lógica de filtragem, agrupamento por círculo e soma matemática deve residir **dentro** do gatilho `renderActorSheet` (ou ser chamada por ele). Como o Foundry re-renderiza o HTML da ficha automaticamente a cada alteração de dados do personagem, colocar a lógica no fluxo de renderização garante que os totais sejam recalculados instantaneamente a cada clique de preparação ou modificação do grimório.
 * **Prevenção de Loops:** O script de renderização deve apenas ler os dados atuais do `actor` e injetar o HTML atualizado no DOM. Ele **nunca** deve chamar métodos que alterem o banco de dados (como `actor.update()`) de forma síncrona dentro do render, o que causaria um loop infinito de renderização.
+
+### 3.5 Protocolo de Inspeção de Dados (Data Paths)
+Como o sistema de Tormenta20 pode sofrer atualizações na estrutura de dados de uma versão para outra, o desenvolvedor ou agente de IA deve obrigatoriamente inspecionar as seguintes propriedades no console do Foundry VTT (`F12`) usando um ator válido antes de consolidar a escrita do script:
+
+1. **Estrutura de Atributos:** Verificar se o caminho do modificador de Inteligência está mapeado em `actor.system.atributos.int.mod` (Português) ou `actor.system.attributes.int.mod` (Inglês).
+2. **Propriedades da Magia:** Filtrar um item de magia e inspecionar onde estão armazenados o círculo e o estado de preparação. 
+   * *Comando de validação:* `canvas.tokens.controlled[0].actor.items.filter(i => i.type === "magia" || i.type === "spell")[0]`
+   * *Campos a mapear:* Identificar se o círculo usa `.system.circulo` ou `.system.level`, e se a marcação de preparada usa `.system.preparada`, `.system.prepared` ou reside dentro de `.flags`.
 
 ---
 

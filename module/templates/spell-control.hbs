@@ -1,0 +1,36 @@
+<section class="t20-wizard-spell-control">
+    <header class="table-header flexrow">
+        <h3 class="item-name">{{localize "T20WIZARD.PanelTitle"}}</h3>
+    </header>
+    <table class="t20-wizard-table">
+        <thead>
+            <tr>
+                <th>{{localize "T20WIZARD.Circle"}}</th>
+                <th>{{localize "T20WIZARD.Known"}}</th>
+                <th>{{localize "T20WIZARD.Prepared"}}</th>
+                <th>{{localize "T20WIZARD.Status"}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each circles}}
+            <tr>
+                <td>{{this.label}}</td>
+                <td>{{this.known}}</td>
+                <td>{{this.prepared}}</td>
+                <td>{{this.status}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+        <tfoot>
+            <tr class="total-row {{status}}">
+                <td><strong>{{localize "T20WIZARD.Total"}}</strong></td>
+                <td>{{totalKnown}}</td>
+                <td>{{totalPrepared}}</td>
+                <td>
+                    <strong>{{limit}}</strong>
+                    <span class="status-indicator">({{localize statusLabel}})</span>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</section>

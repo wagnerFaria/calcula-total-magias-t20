@@ -1,0 +1,16 @@
+{
+  "T20WIZARD.PanelTitle": "Spell Control (Wizard)",
+  "T20WIZARD.Circle": "Circle",
+  "T20WIZARD.Known": "Known",
+  "T20WIZARD.Prepared": "Prepared",
+  "T20WIZARD.Limit": "Limit",
+  "T20WIZARD.Status": "Status",
+  "T20WIZARD.StatusOk": "OK",
+  "T20WIZARD.StatusExceeded": "Limit Exceeded",
+  "T20WIZARD.Total": "General / Total",
+  "T20WIZARD.Circle1": "1st Circle",
+  "T20WIZARD.Circle2": "2nd Circle",
+  "T20WIZARD.Circle3": "3rd Circle",
+  "T20WIZARD.Circle4": "4th Circle",
+  "T20WIZARD.Circle5": "5th Circle"
+}

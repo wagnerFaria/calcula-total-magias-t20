@@ -1,0 +1,47 @@
+{
+  "id": "calcula-total-magias-t20",
+  "title": "T20 Wizard Spell Comptroller",
+  "description": "Monitora, calcula e exibe painéis informativos de controle de magias para personagens da classe Arcanista com o caminho de Mago no sistema Tormenta20.",
+  "version": "1.0.0",
+  "library": false,
+  "manifest": "",
+  "download": "",
+  "authors": [
+    {
+      "name": "Wagner Faria"
+    }
+  ],
+  "compatibility": {
+    "minimum": "11",
+    "verified": "12"
+  },
+  "scripts": [],
+  "esmodules": [
+    "scripts/module.js"
+  ],
+  "styles": [],
+  "packs": [],
+  "languages": [
+    {
+      "lang": "pt-BR",
+      "name": "Português (Brasil)",
+      "path": "lang/pt-BR.json"
+    },
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "relationships": {
+    "systems": [
+      {
+        "id": "tormenta20",
+        "type": "system",
+        "compatibility": {
+          "minimum": "1.0.0"
+        }
+      }
+    ]
+  }
+}
