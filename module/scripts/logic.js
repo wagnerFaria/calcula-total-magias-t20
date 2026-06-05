@@ -5,7 +5,14 @@ export function calculateSpellData(actor) {
   const items = actor.items || [];
   
   // 1. Identify if character is a Mago
-  const isMago = !!(actor.flags?.tormenta20?.mago);
+  const hasArcanistaClass = items.some(item => 
+    item.type === "classe" && item.name === "Arcanista"
+  );
+  const hasMagoPath = items.some(item => 
+    item.type === "poder" && item.name === "Caminho do Arcanista: Mago"
+  );
+  
+  const isMago = hasArcanistaClass && hasMagoPath;
 
   // 2. Initialize structure
   const result = {

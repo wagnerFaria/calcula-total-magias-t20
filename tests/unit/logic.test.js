@@ -2,12 +2,9 @@ import { calculateSpellData } from '../../module/scripts/logic.js';
 
 describe('calculateSpellData', () => {
   const mockMagoActor = {
-    flags: {
-      tormenta20: {
-        mago: true
-      }
-    },
     items: [
+      { name: 'Arcanista', type: 'classe' },
+      { name: 'Caminho do Arcanista: Mago', type: 'poder' },
       { name: 'Spell 1-1', type: 'magia', system: { circulo: 1, preparada: true } },
       { name: 'Spell 1-2', type: 'magia', system: { circulo: 1, preparada: false } },
       { name: 'Spell 2-1', type: 'magia', system: { circulo: 2, preparada: true } },
@@ -22,12 +19,10 @@ describe('calculateSpellData', () => {
 
   test('should return isMago: false for non-Magos', () => {
     const nonMagoActor = {
-      flags: {
-        tormenta20: {
-          mago: false
-        }
-      },
-      items: []
+      items: [
+        { name: 'Arcanista', type: 'classe' }
+        // Missing the power item
+      ]
     };
     const result = calculateSpellData(nonMagoActor);
     expect(result.isMago).toBe(false);
