@@ -1,10 +1,13 @@
 <div class="t20-wizard-spell-control items-list">
+    <div class="spell-limit-header">
+        {{localize "T20WIZARD.MaxPreparable" limit=limit}}
+    </div>
+
     <ol class="items-list">
         <li class="items-header flexrow">
             <h3 class="item-name flexrow">{{localize "T20WIZARD.PanelTitle"}}</h3>
             <div class="item-detail">{{localize "T20WIZARD.Known"}}</div>
             <div class="item-detail">{{localize "T20WIZARD.Prepared"}}</div>
-            <div class="item-detail">{{localize "T20WIZARD.Status"}}</div>
         </li>
         
         {{#each circles}}
@@ -14,20 +17,40 @@
             </div>
             <div class="item-detail">{{this.known}}</div>
             <div class="item-detail">{{this.prepared}}</div>
-            <div class="item-detail">
-                <span class="status-indicator {{this.status}}">{{localize "T20WIZARD.StatusOk"}}</span>
-            </div>
         </li>
         {{/each}}
 
-        <li class="items-header flexrow total-row {{status}}">
+        <li class="items-header flexrow total-row">
             <h3 class="item-name flexrow"><strong>{{localize "T20WIZARD.Total"}}</strong></h3>
             <div class="item-detail">{{totalKnown}}</div>
             <div class="item-detail">{{totalPrepared}}</div>
-            <div class="item-detail">
-                <strong>{{limit}}</strong>
-                <span class="status-indicator">({{localize statusLabel}})</span>
-            </div>
+        </li>
+    </ol>
+
+    <div class="status-message {{#if isWithinLimit}}within{{else}}outside{{/if}}">
+        {{#if isWithinLimit}}
+            {{localize "T20WIZARD.WithinLimit"}}
+        {{else}}
+            {{localize "T20WIZARD.OutsideLimit"}}
+        {{/if}}
+    </div>
+
+    <ol class="items-list type-summary">
+        <li class="items-header flexrow">
+            <h3 class="item-name flexrow">{{localize "T20WIZARD.SpellTypeSummary"}}</h3>
+            <div class="item-detail">Total</div>
+        </li>
+        <li class="item flexrow">
+            <div class="item-name flexrow"><h4>{{localize "T20WIZARD.Arcane"}}</h4></div>
+            <div class="item-detail">{{arcane}}</div>
+        </li>
+        <li class="item flexrow">
+            <div class="item-name flexrow"><h4>{{localize "T20WIZARD.Divine"}}</h4></div>
+            <div class="item-detail">{{divine}}</div>
+        </li>
+        <li class="item flexrow">
+            <div class="item-name flexrow"><h4>{{localize "T20WIZARD.Universal"}}</h4></div>
+            <div class="item-detail">{{universal}}</div>
         </li>
     </ol>
 </div>

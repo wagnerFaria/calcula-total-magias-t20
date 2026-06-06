@@ -12,5 +12,12 @@
   "T20WIZARD.Circle2": "2º Círculo",
   "T20WIZARD.Circle3": "3º Círculo",
   "T20WIZARD.Circle4": "4º Círculo",
-  "T20WIZARD.Circle5": "5º Círculo"
+  "T20WIZARD.Circle5": "5º Círculo",
+  "T20WIZARD.SpellTypeSummary": "Sumarização por tipo de magia",
+  "T20WIZARD.Arcane": "Arcanas",
+  "T20WIZARD.Divine": "Divinas",
+  "T20WIZARD.Universal": "Universais",
+  "T20WIZARD.WithinLimit": "O total de magias preparadas está DENTRO do limite",
+  "T20WIZARD.OutsideLimit": "O total de magias preparadas está FORA do limite",
+  "T20WIZARD.MaxPreparable": "Número de magias que pode preparar {limit}"
 }

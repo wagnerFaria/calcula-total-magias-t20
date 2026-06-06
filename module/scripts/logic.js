@@ -26,14 +26,18 @@ export function calculateSpellData(actor) {
     totalKnown: 0,
     totalPrepared: 0,
     limit: 0,
+    isWithinLimit: true,
     status: "ok",
     statusLabel: "T20WIZARD.StatusOk",
+    arcane: 0,
+    divine: 0,
+    universal: 0,
     circles: [
-      { level: 1, label: "T20WIZARD.Circle1", known: 0, prepared: 0, status: "ok" },
-      { level: 2, label: "T20WIZARD.Circle2", known: 0, prepared: 0, status: "ok" },
-      { level: 3, label: "T20WIZARD.Circle3", known: 0, prepared: 0, status: "ok" },
-      { level: 4, label: "T20WIZARD.Circle4", known: 0, prepared: 0, status: "ok" },
-      { level: 5, label: "T20WIZARD.Circle5", known: 0, prepared: 0, status: "ok" }
+      { level: 1, label: "T20WIZARD.Circle1", known: 0, prepared: 0 },
+      { level: 2, label: "T20WIZARD.Circle2", known: 0, prepared: 0 },
+      { level: 3, label: "T20WIZARD.Circle3", known: 0, prepared: 0 },
+      { level: 4, label: "T20WIZARD.Circle4", known: 0, prepared: 0 },
+      { level: 5, label: "T20WIZARD.Circle5", known: 0, prepared: 0 }
     ]
   };
 
@@ -42,8 +46,7 @@ export function calculateSpellData(actor) {
   // 3. Filter and count spells
   const spells = items.filter(item => 
     item.type === "magia" || 
-    (item.type === "spell") || 
-    (item.system?.tipo === "arc" || item.system?.tipo === "div")
+    item.type === "spell"
   );
   
   console.log(`T20 Wizard Spell Comptroller | Found ${spells.length} items identified as spells.`);
@@ -51,6 +54,7 @@ export function calculateSpellData(actor) {
   spells.forEach(spell => {
     const circleLevel = spell.system?.circulo ?? spell.system?.level;
     const isPrepared = !!(spell.system?.preparada ?? spell.system?.prepared ?? spell.flags?.tormenta20?.preparada);
+    const tipo = spell.system?.tipo;
 
     result.totalKnown++;
     if (isPrepared) result.totalPrepared++;
@@ -60,13 +64,18 @@ export function calculateSpellData(actor) {
       circleData.known++;
       if (isPrepared) circleData.prepared++;
     }
+
+    if (tipo === "arc") result.arcane++;
+    else if (tipo === "div") result.divine++;
+    else if (tipo === "uni") result.universal++;
   });
 
   // 4. Calculate limit: half of total known spells (floor)
   result.limit = Math.floor(result.totalKnown / 2);
 
   // 5. Check global status
-  if (result.totalPrepared > result.limit) {
+  result.isWithinLimit = result.totalPrepared <= result.limit;
+  if (!result.isWithinLimit) {
     result.status = "exceeded";
     result.statusLabel = "T20WIZARD.StatusExceeded";
   }

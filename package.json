@@ -1,6 +1,6 @@
 {
   "name": "calcula-total-magias-t20",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Foundry VTT module for T20 Wizard spell tracking",
   "main": "module/scripts/module.js",
   "type": "module",

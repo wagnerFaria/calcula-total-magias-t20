@@ -35,6 +35,22 @@ describe('calculateSpellData', () => {
     expect(result.totalKnown).toBe(4);
   });
 
+  test('should count spell types correctly', () => {
+    const actorWithTypes = {
+      ...mockMagoActor,
+      items: [
+        ...mockMagoActor.items,
+        { name: 'Arcane', type: 'magia', system: { circulo: 1, tipo: 'arc' } },
+        { name: 'Divine', type: 'magia', system: { circulo: 1, tipo: 'div' } },
+        { name: 'Universal', type: 'magia', system: { circulo: 1, tipo: 'uni' } },
+      ]
+    };
+    const result = calculateSpellData(actorWithTypes);
+    expect(result.arcane).toBe(1);
+    expect(result.divine).toBe(1);
+    expect(result.universal).toBe(1);
+  });
+
   test('should count prepared spells correctly', () => {
     const result = calculateSpellData(mockMagoActor);
     expect(result.totalPrepared).toBe(2);
@@ -59,6 +75,7 @@ describe('calculateSpellData', () => {
   test('should calculate limit as half of known spells (floor)', () => {
     const result = calculateSpellData(mockMagoActor); // 4 known -> limit 2
     expect(result.limit).toBe(2);
+    expect(result.isWithinLimit).toBe(true);
 
     const actorWith5Spells = {
       name: 'Mago with 5 spells',
@@ -74,6 +91,7 @@ describe('calculateSpellData', () => {
     };
     const result2 = calculateSpellData(actorWith5Spells); // 5 known -> limit 2
     expect(result2.limit).toBe(2);
+    expect(result2.isWithinLimit).toBe(true);
   });
 
   test('should set status as exceeded if prepared > limit', () => {
@@ -89,6 +107,7 @@ describe('calculateSpellData', () => {
     };
     const result = calculateSpellData(overLimitActor);
     expect(result.status).toBe('exceeded');
+    expect(result.isWithinLimit).toBe(false);
   });
 });
 
