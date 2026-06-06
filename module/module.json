@@ -2,10 +2,10 @@
   "id": "calcula-total-magias-t20",
   "title": "T20 Wizard Spell Comptroller",
   "description": "Monitora, calcula e exibe painéis informativos de controle de magias para personagens da classe Arcanista com o caminho de Mago no sistema Tormenta20.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "library": false,
   "manifest": "https://github.com/wagnerFaria/calcula-total-magias-t20/releases/latest/download/module.json",
-  "download": "https://github.com/wagnerFaria/calcula-total-magias-t20/releases/download/v1.0.1/calcula-total-magias-t20-1.0.1.zip",
+  "download": "https://github.com/wagnerFaria/calcula-total-magias-t20/releases/download/v1.0.2/calcula-total-magias-t20-1.0.2.zip",
   "authors": [
     {
       "name": "Wagner Faria"
@@ -13,7 +13,7 @@
   ],
   "compatibility": {
     "minimum": "11",
-    "verified": "12"
+    "verified": "13"
   },
   "scripts": [],
   "esmodules": [
