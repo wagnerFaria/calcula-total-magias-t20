@@ -12,5 +12,12 @@
   "T20WIZARD.Circle2": "2nd Circle",
   "T20WIZARD.Circle3": "3rd Circle",
   "T20WIZARD.Circle4": "4th Circle",
-  "T20WIZARD.Circle5": "5th Circle"
+  "T20WIZARD.Circle5": "5th Circle",
+  "T20WIZARD.SpellTypeSummary": "Spell type summary",
+  "T20WIZARD.Arcane": "Arcane",
+  "T20WIZARD.Divine": "Divine",
+  "T20WIZARD.Universal": "Universal",
+  "T20WIZARD.WithinLimit": "Total prepared spells is WITHIN the limit",
+  "T20WIZARD.OutsideLimit": "Total prepared spells is OUTSIDE the limit",
+  "T20WIZARD.MaxPreparable": "Number of spells you can prepare: {limit}"
 }
