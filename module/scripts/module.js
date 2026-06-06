@@ -27,62 +27,71 @@ Hooks.on('renderActorSheet', async (app, html, data) => {
     const content = await renderer(templatePath, spellData);
 
     // 2. Inject into the UI
-    // DEEP DIAGNOSTICS
-    console.log('T20 Wizard Spell Comptroller | --- DEEP SCAN START ---');
-    console.log('T20 Wizard Spell Comptroller | Sheet Class:', app.constructor.name);
-    
-    // Find ALL text that might be navigation
-    const navText = html.find('nav, .tabs, .navigation').find('a, .item, button').map((i, el) => el.textContent.trim()).get();
-    console.log('T20 Wizard Spell Comptroller | Nav/Tabs Text:', navText);
+    let targetContainer = null;
 
-    // Search for the word "Magias" anywhere in the sheet
-    const magiasElements = html.find('*:contains("Magias"), *:contains("MAGIAS"), *:contains("Spells")').filter((i, el) => el.children.length === 0 || $(el).children().length === 0);
-    console.log('T20 Wizard Spell Comptroller | Elements containing "Magias" text:', magiasElements.map((i, el) => `${el.tagName}.${el.className}`).get());
-
-    // Log all data-tabs again but more detailed
-    const allTabsDetail = html.find('[data-tab]').map((i, el) => ({
-        tag: el.tagName,
-        class: el.className,
-        tab: el.getAttribute('data-tab'),
-        visible: $(el).is(':visible')
-    })).get();
-    console.table(allTabsDetail);
-
-    // Check if we are inside a specific tab already
-    const activeTab = html.find('.tab.active').attr('data-tab');
-    console.log('T20 Wizard Spell Comptroller | Active Tab:', activeTab);
-
-    let spellTab = html.find('[data-tab="magias"]');
-    if (spellTab.length === 0) spellTab = html.find('[data-tab="spells"]');
-    if (spellTab.length === 0) spellTab = html.find('.tab.magias');
-    
-    // Fallback: If no dedicated tab found, look for any inventory list that might contain spells
-    if (spellTab.length === 0) {
-        const inventoryLists = html.find('.inventory-list');
-        console.log(`T20 Wizard Spell Comptroller | Found ${inventoryLists.length} inventory lists.`);
+    // Strategy A: Find by data-tab (original way)
+    let spellTab = html.find('[data-tab="magias"], [data-tab="spells"], .tab.magias, .tab.spells');
+    if (spellTab.length > 0) {
+        console.log('T20 Wizard Spell Comptroller | Found spell tab by selector');
+        targetContainer = spellTab.find('.inventory-list').first();
+        if (targetContainer.length === 0) targetContainer = spellTab;
     }
 
-    console.log(`T20 Wizard Spell Comptroller | Spell tab search results: Found=${spellTab.length > 0}`);
-    console.log('T20 Wizard Spell Comptroller | --- DEEP SCAN END ---');
+    // Strategy B: Find by "Magias" text content (Header/Label)
+    if (!targetContainer || targetContainer.length === 0) {
+        const magiasHeader = html.find('h1, h2, h3, h4, label, p, span').filter((i, el) => {
+            const text = el.textContent.trim().toLowerCase();
+            return text === 'magias' || text === 'minhas magias';
+        }).first();
+
+        if (magiasHeader.length > 0) {
+            console.log('T20 Wizard Spell Comptroller | Found "Magias" text element. Identifying container...');
+            // Try to find the nearest inventory list or container after this header
+            let nextContainer = magiasHeader.nextAll('.inventory-list, .items-list, .list-container').first();
+            if (nextContainer.length === 0) {
+                // Try parent's siblings
+                nextContainer = magiasHeader.parent().nextAll('.inventory-list, .items-list').first();
+            }
+            
+            targetContainer = nextContainer.length > 0 ? nextContainer : magiasHeader;
+        }
+    }
+
+    // Strategy C: Find by identifying a spell item in the DOM
+    if (!targetContainer || targetContainer.length === 0) {
+        const spellItems = html.find('.item[data-item-id]').filter((i, el) => {
+            const item = actor.items.get(el.getAttribute('data-item-id'));
+            return item && (item.type === 'magia' || item.type === 'spell');
+        });
+
+        if (spellItems.length > 0) {
+            console.log('T20 Wizard Spell Comptroller | Found spell items in DOM. Injecting into their parent.');
+            targetContainer = spellItems.first().parent();
+        }
+    }
+
+    // Strategy D: Fallback to Attributes tab
+    if (!targetContainer || targetContainer.length === 0) {
+        console.log('T20 Wizard Spell Comptroller | All strategies failed. Falling back to active or attributes tab.');
+        targetContainer = html.find('.tab.active').first();
+        if (targetContainer.length === 0) targetContainer = html.find('[data-tab="attributes"]').first();
+    }
+
+    console.log('T20 Wizard Spell Comptroller | Injection Target:', targetContainer?.get(0)?.tagName, targetContainer?.get(0)?.className);
 
     // Check if already injected to prevent duplicates
     if (html.find('.t20-wizard-spell-control').length > 0) {
-        console.log('T20 Wizard Spell Comptroller | UI already injected. Skipping.');
         return;
     }
 
-    if (spellTab.length > 0) {
-        // Look for the spell list container. T20 often uses .inventory-list
-        const spellList = spellTab.find('.inventory-list').first();
-        if (spellList.length > 0) {
-            console.log('T20 Wizard Spell Comptroller | Injecting UI before .inventory-list');
-            spellList.before(content);
+    if (targetContainer && targetContainer.length > 0) {
+        if (targetContainer.hasClass('inventory-list') || targetContainer.hasClass('item')) {
+            targetContainer.before(content);
         } else {
-            console.log('T20 Wizard Spell Comptroller | Injecting UI at the top of spell tab');
-            spellTab.prepend(content);
+            targetContainer.prepend(content);
         }
         console.log('T20 Wizard Spell Comptroller | UI injection completed.');
     } else {
-        console.warn('T20 Wizard Spell Comptroller | Could not find spell tab to inject UI.');
+        console.warn('T20 Wizard Spell Comptroller | Could not find any suitable container to inject UI.');
     }
 });
