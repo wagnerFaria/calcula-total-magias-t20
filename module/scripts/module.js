@@ -17,29 +17,24 @@ Hooks.on('renderActorSheet', async (app, html, data) => {
 
     // 1. Render the template
     const templatePath = 'modules/calcula-total-magias-t20/templates/spell-control.hbs';
-    const content = await renderTemplate(templatePath, spellData);
+    // Support both old and new Foundry API for template rendering
+    const renderer = foundry.applications?.handlebars?.renderTemplate || renderTemplate;
+    const content = await renderer(templatePath, spellData);
 
     // 2. Inject into the UI
-    // In Tormenta20 system, the spells tab is usually [data-tab="magias"] or .tab.spells
-    let spellTab = html.find('.tab.spells');
-    if (spellTab.length === 0) spellTab = html.find('.tab[data-tab="magias"]');
+    // In Tormenta20 system, the spells tab is [data-tab="magias"]
+    const spellTab = html.find('.tab[data-tab="magias"]');
     
     // Check if already injected to prevent duplicates
     if (html.find('.t20-wizard-spell-control').length > 0) return;
 
     if (spellTab.length > 0) {
-        // Look for the items-list within the spell tab to prepend there
-        const itemsList = spellTab.find('.items-list').first();
-        if (itemsList.length > 0) {
-            itemsList.before(content);
+        // Look for the spell list container. T20 often uses .inventory-list
+        const spellList = spellTab.find('.inventory-list').first();
+        if (spellList.length > 0) {
+            spellList.before(content);
         } else {
             spellTab.prepend(content);
-        }
-    } else {
-        // If we really can't find the spell tab, we look for where the spells are usually listed
-        const spellSection = html.find('.inventory-list.spells-list');
-        if (spellSection.length > 0) {
-            spellSection.before(content);
         }
     }
 });

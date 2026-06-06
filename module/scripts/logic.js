@@ -34,7 +34,12 @@ export function calculateSpellData(actor) {
   if (!isMago) return result;
 
   // 3. Filter and count spells
-  const spells = items.filter(item => item.type === "magia");
+  // In T20 system, spells might have type 'magia' or their system.tipo might be 'arc'/'div'
+  const spells = items.filter(item => 
+    item.type === "magia" || 
+    (item.type === "spell") || 
+    (item.system?.tipo === "arc" || item.system?.tipo === "div")
+  );
   
   spells.forEach(spell => {
     const circleLevel = spell.system?.circulo ?? spell.system?.level;
