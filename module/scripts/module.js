@@ -27,17 +27,32 @@ Hooks.on('renderActorSheet', async (app, html, data) => {
     const content = await renderer(templatePath, spellData);
 
     // 2. Inject into the UI
-    // Broaden search for the spell tab
-    const availableTabs = html.find('[data-tab]').map((i, el) => el.getAttribute('data-tab')).get();
-    console.log('T20 Wizard Spell Comptroller | Available tabs in sheet:', availableTabs);
+    // DIAGNOSTICS: Find all potential tab and navigation elements
+    const allDataTabs = html.find('[data-tab]').map((i, el) => `${el.tagName}.${el.className} [data-tab="${el.getAttribute('data-tab')}"]`).get();
+    const allTabs = html.find('.tab').map((i, el) => `${el.tagName}.${el.className} [data-tab="${el.getAttribute('data-tab')}"]`).get();
+    const allInventoryLists = html.find('.inventory-list').map((i, el) => `${el.tagName}.${el.className} (parent: ${el.parentElement.className})`).get();
+    
+    console.log('T20 Wizard Spell Comptroller | Diagnostic - All data-tabs:', allDataTabs);
+    console.log('T20 Wizard Spell Comptroller | Diagnostic - All .tab elements:', allTabs);
+    console.log('T20 Wizard Spell Comptroller | Diagnostic - All .inventory-list elements:', allInventoryLists);
+
+    // Try to find the tab by looking for a navigation item that contains "Magias"
+    const navItemMagias = html.find('nav .item, nav a').filter((i, el) => el.textContent.includes('Magias') || el.textContent.includes('Spells'));
+    if (navItemMagias.length > 0) {
+        console.log('T20 Wizard Spell Comptroller | Found "Magias" navigation item:', navItemMagias.attr('data-tab'));
+    }
 
     let spellTab = html.find('[data-tab="magias"]');
     if (spellTab.length === 0) spellTab = html.find('[data-tab="spells"]');
-    if (spellTab.length === 0) spellTab = html.find('[data-tab="spell"]');
     if (spellTab.length === 0) spellTab = html.find('.tab.magias');
     if (spellTab.length === 0) spellTab = html.find('.tab.spells');
-    if (spellTab.length === 0) spellTab = html.find('.magias');
     
+    // Fallback: If we found a nav item but no tab content, the tab content might have a different name
+    if (spellTab.length === 0 && navItemMagias.length > 0) {
+        const tabId = navItemMagias.attr('data-tab');
+        if (tabId) spellTab = html.find(`[data-tab="${tabId}"]`).filter((i, el) => !el.matches('nav .item, nav a'));
+    }
+
     console.log(`T20 Wizard Spell Comptroller | Spell tab search results: Found=${spellTab.length > 0}`);
 
     // Check if already injected to prevent duplicates
