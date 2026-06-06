@@ -2,6 +2,7 @@
  * Decoupled logic for calculating spell counts and limits for T20 Magos.
  */
 export function calculateSpellData(actor) {
+  console.log(`T20 Wizard Spell Comptroller | Starting calculation for ${actor.name}`);
   const items = actor.items || [];
   
   // 1. Identify if character is a Mago
@@ -16,6 +17,8 @@ export function calculateSpellData(actor) {
   const hasFlag = !!(actor.flags?.tormenta20?.mago);
   
   const isMago = (hasArcanistaClass && hasMagoPath) || hasFlag;
+
+  console.log(`T20 Wizard Spell Comptroller | Detection: Arcanista=${hasArcanistaClass}, PathMago=${hasMagoPath}, FlagMago=${hasFlag} => isMago=${isMago}`);
 
   // 2. Initialize structure
   const result = {
@@ -37,13 +40,14 @@ export function calculateSpellData(actor) {
   if (!isMago) return result;
 
   // 3. Filter and count spells
-  // In T20 system, spells might have type 'magia' or their system.tipo might be 'arc'/'div'
   const spells = items.filter(item => 
     item.type === "magia" || 
     (item.type === "spell") || 
     (item.system?.tipo === "arc" || item.system?.tipo === "div")
   );
   
+  console.log(`T20 Wizard Spell Comptroller | Found ${spells.length} items identified as spells.`);
+
   spells.forEach(spell => {
     const circleLevel = spell.system?.circulo ?? spell.system?.level;
     const isPrepared = !!(spell.system?.preparada ?? spell.system?.prepared ?? spell.flags?.tormenta20?.preparada);
@@ -66,6 +70,8 @@ export function calculateSpellData(actor) {
     result.status = "exceeded";
     result.statusLabel = "T20WIZARD.StatusExceeded";
   }
+
+  console.log(`T20 Wizard Spell Comptroller | Calculation finished: Known=${result.totalKnown}, Prepared=${result.totalPrepared}, Limit=${result.limit}, Status=${result.status}`);
 
   return result;
 }

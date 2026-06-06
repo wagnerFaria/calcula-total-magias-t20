@@ -2,6 +2,7 @@ import { calculateSpellData } from '../../module/scripts/logic.js';
 
 describe('calculateSpellData', () => {
   const mockMagoActor = {
+    name: 'Test Mago',
     items: [
       { name: 'Arcanista', type: 'classe' },
       { name: 'Caminho do Arcanista: Mago', type: 'poder' },
@@ -19,6 +20,7 @@ describe('calculateSpellData', () => {
 
   test('should return isMago: false for non-Magos', () => {
     const nonMagoActor = {
+      name: 'Test non-Mago',
       items: [
         { name: 'Arcanista', type: 'classe' }
         // Missing the power item
@@ -59,6 +61,7 @@ describe('calculateSpellData', () => {
     expect(result.limit).toBe(2);
 
     const actorWith5Spells = {
+      name: 'Mago with 5 spells',
       flags: {
         tormenta20: {
           mago: true
@@ -75,6 +78,7 @@ describe('calculateSpellData', () => {
 
   test('should set status as exceeded if prepared > limit', () => {
     const overLimitActor = {
+      name: 'Over-limit Mago',
       items: [
         { name: 'Arcanista', type: 'classe' },
         { name: 'Caminho do Arcanista: Mago', type: 'poder' },
