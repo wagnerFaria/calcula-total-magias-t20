@@ -28,8 +28,14 @@ Hooks.on('renderActorSheet', async (app, html, data) => {
 
     // 2. Inject into the UI
     // Broaden search for the spell tab
+    const availableTabs = html.find('[data-tab]').map((i, el) => el.getAttribute('data-tab')).get();
+    console.log('T20 Wizard Spell Comptroller | Available tabs in sheet:', availableTabs);
+
     let spellTab = html.find('[data-tab="magias"]');
+    if (spellTab.length === 0) spellTab = html.find('[data-tab="spells"]');
+    if (spellTab.length === 0) spellTab = html.find('[data-tab="spell"]');
     if (spellTab.length === 0) spellTab = html.find('.tab.magias');
+    if (spellTab.length === 0) spellTab = html.find('.tab.spells');
     if (spellTab.length === 0) spellTab = html.find('.magias');
     
     console.log(`T20 Wizard Spell Comptroller | Spell tab search results: Found=${spellTab.length > 0}`);
