@@ -11,6 +11,8 @@ Hooks.on('renderActorSheet', async (app, html, data) => {
     console.log('T20 Wizard Spell Comptroller | Sheet HTML Element:', html);
     
     const spellData = calculateSpellData(actor);
+    console.log('T20 Wizard Spell Comptroller | isMago:', spellData.isMago);
+    console.log('T20 Wizard Spell Comptroller | Spells found:', spellData.totalKnown);
 
     // Only proceed if it's a Mago
     if (!spellData.isMago) return;
@@ -22,9 +24,13 @@ Hooks.on('renderActorSheet', async (app, html, data) => {
     const content = await renderer(templatePath, spellData);
 
     // 2. Inject into the UI
-    // In Tormenta20 system, the spells tab is [data-tab="magias"]
-    const spellTab = html.find('.tab[data-tab="magias"]');
+    // Broaden search for the spell tab
+    let spellTab = html.find('[data-tab="magias"]');
+    if (spellTab.length === 0) spellTab = html.find('.tab.magias');
+    if (spellTab.length === 0) spellTab = html.find('.magias');
     
+    console.log('T20 Wizard Spell Comptroller | Spell tab found:', spellTab.length > 0);
+
     // Check if already injected to prevent duplicates
     if (html.find('.t20-wizard-spell-control').length > 0) return;
 
