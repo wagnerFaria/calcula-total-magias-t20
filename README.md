@@ -10,10 +10,11 @@ No sistema Tormenta20, o Mago possui uma mecânica específica de preparação d
 3. **A Regra:** O limite de magias preparadas é igual a **metade do total de magias conhecidas** (arredondado para baixo).
 
 O sistema padrão do Foundry VTT para T20 não faz essa contagem automática nem exibe um painel consolidado. Este módulo resolve isso injetando uma interface reativa que monitora:
-- Total de magias conhecidas por Círculo (1º ao 5º).
-- Total de magias preparadas atualmente.
+- Total de magias preparadas em relação ao limite, em destaque (`5 / 6`) com barra de progresso.
+- Total de magias conhecidas por Círculo (1º ao 5º) — só exibe os círculos que o personagem realmente possui.
 - Cálculo automático do limite máximo permitido.
 - Alerta visual caso o limite de preparação seja excedido.
+- Resumo por tipo de magia (Arcana / Divina / Universal).
 
 ## 🛠️ Como Gerar o Arquivo para Distribuição (.zip)
 
@@ -32,7 +33,7 @@ Se você estiver desenvolvendo ou quiser gerar o pacote manualmente para instala
    ```bash
    npm run zip
    ```
-O arquivo será gerado na raiz com o nome `calcula-total-magias-t20-1.0.0.zip`.
+O arquivo será gerado na raiz com o nome `calcula-total-magias-t20-<versão>.zip`, usando a versão declarada em `module/module.json`.
 
 ## 📦 Como Adicionar ao Foundry VTT
 
@@ -60,7 +61,16 @@ O painel de controle aparecerá **automaticamente** na ficha de qualquer persona
 1. Possua um item de classe com o nome **"Arcanista"**.
 2. Tenha a subclasse/caminho configurado como **"Mago"** nas configurações da classe.
 
-Ao abrir a aba de **Magias** da ficha, o novo painel "Controle de Magias (Mago)" estará visível no topo, atualizando-se instantaneamente conforme você marca ou desmarca a opção "Preparada" nas suas magias.
+Ao abrir a aba de **Magias** da ficha, o novo painel "Controle de Magias (Mago)" estará visível no topo, mostrando:
+- O total preparado em destaque (ex.: `5 / 6`) com uma barra de progresso e quantas magias ainda podem ser preparadas.
+- Uma tabela com o detalhamento por círculo (apenas os círculos com magias conhecidas aparecem).
+- Um resumo por tipo de magia (Arcana / Divina / Universal).
+
+O painel se atualiza instantaneamente, sem precisar fechar e reabrir a ficha, conforme você marca ou desmarca a opção "Preparada" nas suas magias. Se o total preparado ultrapassar o limite, o painel muda de cor para sinalizar o excesso.
+
+## 🎨 Identidade Visual
+
+A paleta de cores do painel (carmesim, âmbar/dourado e pergaminho) foi extraída das artes oficiais de Tormenta20 e está documentada em [DESIGN.md](DESIGN.md), junto com o racional de uso de cada cor e o mapeamento para os componentes da interface.
 
 ## 🧪 Desenvolvimento e Testes
 
@@ -70,7 +80,9 @@ Para rodar os testes:
 npm test
 ```
 
+Para detalhes de arquitetura (separação entre lógica de cálculo e integração com o Foundry, hooks utilizados, convenções de i18n), veja [CLAUDE.md](CLAUDE.md).
+
 ---
 **Autor:** Wagner Faria
-**Compatibilidade:** Foundry VTT v11 e v12
+**Compatibilidade:** Foundry VTT v11 a v13
 **Sistema:** Tormenta20 (T20)
