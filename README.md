@@ -51,8 +51,9 @@ Existem duas formas principais de instalar este módulo:
 2. Clique em **Install Module**.
 3. No campo **Manifest URL**, cole o link oficial:
    ```text
-   https://github.com/wagnerFaria/calcula-total-magias-t20/releases/latest/download/module.json
+   https://raw.githubusercontent.com/wagnerFaria/calcula-total-magias-t20/main/module/module.json
    ```
+   *Nota: use a URL "raw" do arquivo no repositório, não o link de release (`releases/latest/download/...`) — o Foundry precisa do conteúdo bruto do JSON, e o link de release passa por um redirect que nem sempre é seguido corretamente.*
 4. Clique em **Install**.
 
 ## 📖 Como Usar
