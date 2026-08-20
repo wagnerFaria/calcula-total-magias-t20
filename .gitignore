@@ -20,3 +20,4 @@ Thumbs.db
 
 # graphify (regenerable code-graph cache/output)
 graphify-out/
+.mcp.json
