@@ -1,54 +1,156 @@
 .t20-wizard-spell-control {
+    --t20-black: #120404;
+    --t20-crimson-900: #4D0000;
+    --t20-crimson-700: #7A0C0C;
+    --t20-crimson-500: #A61C1C;
+    --t20-crimson-400: #D0281B;
+    --t20-ember-500: #E8850F;
+    --t20-ember-300: #F5A93F;
+    --t20-parchment: #F5E6C8;
+    --t20-arcane-cyan: #3FA8C4;
+    --t20-ink: #1C1010;
+
     margin-bottom: 10px;
-    border: 1px solid #7a7971;
-    border-radius: 5px;
-    background: rgba(0, 0, 0, 0.05);
-    padding: 5px;
+    border: 1px solid var(--t20-crimson-700);
+    border-radius: 6px;
+    background: rgba(245, 230, 200, 0.35);
+    color: var(--t20-ink);
     clear: both;
     position: relative;
     z-index: 1;
+    overflow: hidden;
 }
 
-.t20-wizard-spell-control .spell-limit-header {
+.t20-wizard-spell-control .tw-header {
+    background: var(--t20-crimson-700);
+    color: var(--t20-parchment);
     text-align: center;
     font-weight: bold;
-    font-size: 1.1em;
-    padding: 5px;
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 3px;
-    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 6px;
 }
 
-.t20-wizard-spell-control .items-header {
-    background: #333;
-    color: #f0f0e0;
-    border-radius: 3px 3px 0 0;
-}
-
-.t20-wizard-spell-control .total-row {
-    border-top: 2px solid #333;
-    margin-top: 5px;
-}
-
-.t20-wizard-spell-control .status-message {
+.t20-wizard-spell-control .tw-highlight {
     text-align: center;
-    padding: 8px;
-    margin: 10px 0;
+    padding: 10px 12px;
+    background: rgba(245, 230, 200, 0.5);
+}
+
+.t20-wizard-spell-control .tw-highlight-label {
+    font-size: 0.85em;
     font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--t20-crimson-700);
+}
+
+.t20-wizard-spell-control .tw-highlight-value {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: var(--t20-ember-500);
+    line-height: 1.2;
+}
+
+.t20-wizard-spell-control .tw-meter {
+    height: 8px;
     border-radius: 4px;
-    border: 1px solid #7a7971;
+    background: rgba(18, 4, 4, 0.15);
+    border: 1px solid var(--t20-crimson-700);
+    overflow: hidden;
+    margin: 6px auto;
+    max-width: 280px;
 }
 
-.t20-wizard-spell-control .status-message.within {
-    background: rgba(0, 128, 0, 0.1);
-    color: #1b5e20;
+.t20-wizard-spell-control .tw-meter-fill {
+    height: 100%;
+    background: var(--t20-ember-500);
+    transition: width 0.2s ease;
 }
 
-.t20-wizard-spell-control .status-message.outside {
-    background: rgba(128, 0, 0, 0.1);
-    color: #b71c1c;
+.t20-wizard-spell-control .tw-highlight-note {
+    font-size: 0.9em;
+    font-weight: bold;
+    color: var(--t20-crimson-700);
 }
 
-.t20-wizard-spell-control .type-summary {
-    margin-top: 15px;
+.t20-wizard-spell-control.tw-exceeded .tw-meter-fill {
+    background: var(--t20-crimson-400);
+}
+
+.t20-wizard-spell-control.tw-exceeded .tw-highlight-value,
+.t20-wizard-spell-control.tw-exceeded .tw-highlight-note {
+    color: var(--t20-crimson-400);
+}
+
+.t20-wizard-spell-control .tw-circle-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95em;
+}
+
+.t20-wizard-spell-control .tw-circle-table thead th {
+    background: var(--t20-crimson-900);
+    color: var(--t20-parchment);
+    font-weight: bold;
+    text-align: left;
+    padding: 4px 10px;
+}
+
+.t20-wizard-spell-control .tw-circle-table td {
+    padding: 4px 10px;
+    border-bottom: 1px solid rgba(122, 12, 12, 0.15);
+}
+
+.t20-wizard-spell-control .tw-col-num {
+    text-align: center;
+    width: 25%;
+}
+
+.t20-wizard-spell-control .tw-total-row {
+    font-weight: bold;
+    border-top: 2px solid var(--t20-ember-500);
+}
+
+.t20-wizard-spell-control .tw-total-row td {
+    border-bottom: none;
+    padding-top: 6px;
+}
+
+.t20-wizard-spell-control .tw-type-summary {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 8px;
+    font-size: 0.85em;
+    font-weight: bold;
+}
+
+.t20-wizard-spell-control .tw-type::before {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 4px;
+}
+
+.t20-wizard-spell-control .tw-type-arcane::before {
+    background: var(--t20-crimson-500);
+}
+
+.t20-wizard-spell-control .tw-type-divine::before {
+    background: var(--t20-ember-500);
+}
+
+.t20-wizard-spell-control .tw-type-universal::before {
+    background: var(--t20-arcane-cyan);
+}
+
+.t20-wizard-spell-control .tw-empty {
+    text-align: center;
+    padding: 10px;
+    font-style: italic;
+    color: var(--t20-crimson-700);
 }

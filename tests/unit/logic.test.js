@@ -109,5 +109,45 @@ describe('calculateSpellData', () => {
     expect(result.status).toBe('exceeded');
     expect(result.isWithinLimit).toBe(false);
   });
+
+  describe('progress meter fields', () => {
+    test('percentUsed and remaining when within limit', () => {
+      const result = calculateSpellData(mockMagoActor); // 4 known, 2 prepared -> limit 2
+      expect(result.percentUsed).toBe(100);
+      expect(result.remaining).toBe(0);
+      expect(result.excess).toBe(0);
+    });
+
+    test('percentUsed is 0 (not NaN/Infinity) when limit is 0', () => {
+      const oneSpellActor = {
+        name: 'Novice Mago',
+        flags: { tormenta20: { mago: true } },
+        items: [
+          { name: 'Spell 1', type: 'magia', system: { circulo: 1, preparada: false } },
+        ]
+      };
+      const result = calculateSpellData(oneSpellActor); // 1 known -> limit 0
+      expect(result.limit).toBe(0);
+      expect(result.percentUsed).toBe(0);
+      expect(Number.isFinite(result.percentUsed)).toBe(true);
+    });
+
+    test('percentUsed is capped at 100 and excess is positive when exceeded', () => {
+      const overLimitActor = {
+        name: 'Over-limit Mago',
+        items: [
+          { name: 'Arcanista', type: 'classe' },
+          { name: 'Caminho do Arcanista: Mago', type: 'poder' },
+          { name: 'S1', type: 'magia', system: { circulo: 1, preparada: true } },
+          { name: 'S2', type: 'magia', system: { circulo: 1, preparada: true } },
+          { name: 'S3', type: 'magia', system: { circulo: 1, preparada: true } }, // 3 prepared, 3 known -> limit 1
+        ]
+      };
+      const result = calculateSpellData(overLimitActor);
+      expect(result.percentUsed).toBe(100);
+      expect(result.remaining).toBe(-2);
+      expect(result.excess).toBe(2);
+    });
+  });
 });
 

@@ -26,6 +26,9 @@ export function calculateSpellData(actor) {
     totalKnown: 0,
     totalPrepared: 0,
     limit: 0,
+    remaining: 0,
+    excess: 0,
+    percentUsed: 0,
     isWithinLimit: true,
     status: "ok",
     statusLabel: "T20WIZARD.StatusOk",
@@ -79,6 +82,13 @@ export function calculateSpellData(actor) {
     result.status = "exceeded";
     result.statusLabel = "T20WIZARD.StatusExceeded";
   }
+
+  // 6. Derived fields for the progress meter
+  result.remaining = result.limit - result.totalPrepared;
+  result.excess = Math.abs(result.remaining);
+  result.percentUsed = result.limit > 0
+    ? Math.min(100, Math.round((result.totalPrepared / result.limit) * 100))
+    : (result.totalPrepared > 0 ? 100 : 0);
 
   console.log(`T20 Wizard Spell Comptroller | Calculation finished: Known=${result.totalKnown}, Prepared=${result.totalPrepared}, Limit=${result.limit}, Status=${result.status}`);
 

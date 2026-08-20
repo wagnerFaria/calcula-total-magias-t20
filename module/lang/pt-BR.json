@@ -19,5 +19,8 @@
   "T20WIZARD.Universal": "Universais",
   "T20WIZARD.WithinLimit": "O total de magias preparadas está DENTRO do limite",
   "T20WIZARD.OutsideLimit": "O total de magias preparadas está FORA do limite",
-  "T20WIZARD.MaxPreparable": "Número de magias que pode preparar {limit}"
+  "T20WIZARD.MaxPreparable": "Número de magias que pode preparar {limit}",
+  "T20WIZARD.Remaining": "Ainda pode preparar: {remaining}",
+  "T20WIZARD.ExceededBy": "Excedeu o limite em {excess}",
+  "T20WIZARD.NoSpells": "Nenhuma magia no grimório"
 }
