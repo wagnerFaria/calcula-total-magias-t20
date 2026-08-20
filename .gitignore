@@ -14,3 +14,9 @@ Thumbs.db
 .vscode/
 .idea/
 *.zip
+
+# Claude Code (local/machine-specific project settings)
+.claude/
+
+# graphify (regenerable code-graph cache/output)
+graphify-out/
