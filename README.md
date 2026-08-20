@@ -69,6 +69,8 @@ Ao abrir a aba de **Magias** da ficha, o novo painel "Controle de Magias (Mago)"
 
 O painel se atualiza instantaneamente, sem precisar fechar e reabrir a ficha, conforme você marca ou desmarca a opção "Preparada" nas suas magias. Se o total preparado ultrapassar o limite, o painel muda de cor para sinalizar o excesso.
 
+![Painel de controle de magias em produção](assets/img/print-em-prod.jpeg)
+
 ## 🎨 Identidade Visual
 
 A paleta de cores do painel (carmesim, âmbar/dourado e pergaminho) foi extraída das artes oficiais de Tormenta20 e está documentada em [DESIGN.md](DESIGN.md), junto com o racional de uso de cada cor e o mapeamento para os componentes da interface.
